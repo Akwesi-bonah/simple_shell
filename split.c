@@ -3,8 +3,8 @@
 #define SPARE " \t\r\n\a"
 
 /**
- * split_commnad - split lines into tokens
- * @line - line to be splited
+ * split_command - split lines into tokens
+ * @line: line to be splited
  *
  * Return: array of tokens
  */
@@ -22,7 +22,6 @@ char **split_command(char *line)
 		exit(EXIT_FAILURE);
 	}
 	token = strtok(line, SPARE);
-	
 	while (token != NULL)
 	{
 		tokens[i] = token;
@@ -31,7 +30,6 @@ char **split_command(char *line)
 		{
 			buffer_size += BUFFER_SIZE;
 			tokens = realloc(tokens, buffer_size);
-		
 			if (!tokens)
 			{
 				fprintf(stderr, "lsh: allocation error\n");
@@ -41,8 +39,5 @@ char **split_command(char *line)
 		token = strtok(NULL, SPARE);
 	}
 	tokens[i] = NULL;
-	
 	return (tokens);
 }
-
-		

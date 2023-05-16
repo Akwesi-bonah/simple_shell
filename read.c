@@ -6,14 +6,14 @@
 
 char *read_command(void)
 {
-	char* line = NULL;
+	char *line = NULL;
 	size_t bufsize = 0;
 	ssize_t i = 0;
 
 	i = getline(&line, &bufsize, stdin);
 
 	if (i == -1)
-		return NULL;
+		return (NULL);
 
-	return line;
+	return (line);
 }
