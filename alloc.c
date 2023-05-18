@@ -20,7 +20,7 @@ void *_calloc(unsigned int num, unsigned int size)
 	range = num * size;
 	ptr = malloc(range);
 
-	if(ptr)
+	if (ptr)
 	{
 		str = (char *)ptr;
 		for (i = 0; i < range; i++)

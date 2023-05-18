@@ -1,6 +1,6 @@
 #include "shell.h"
 /**
- * read_command - read line command
+ * read_cmd - read line command
  * Return: string line with line break
  */
 

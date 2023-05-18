@@ -9,23 +9,23 @@
  */
 void print_error(int on, char *var_name, char *type, char *name)
 {
-	char *str, *error_mess, *mess;
+	char *str, *err, *msg;
 	char i;
 
 	str = malloc(sizeof(char) * 10);
 	_itoa(on, str, 10);
-	error_mess = malloc(sizeof(char) * 200);
+	err = malloc(sizeof(char) * 200);
 
 	if (!_strcmp(var_name, "exit"))
 	{
-		mess = "Illagal number: ";
+		msg = "Illagal number: ";
 	}
 	else
 	{
-		mess = "";
+		msg = "";
 	}
-	snprintf(error_mess, 200, "%s%s%s: %s not found\n", name, str, mess, var_name);
-	write(STDERR_FILENO, error_mess, _strlen(error_mess));
+	snprintf(err, 200, "%s%s%s: %s not found\n", name, str, msg, var_name);
+	write(STDERR_FILENO, err, _strlen(err));
 	free(str);
-	free(error_mess);
+	free(err);
 }

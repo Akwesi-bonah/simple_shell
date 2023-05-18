@@ -1,6 +1,6 @@
 #include "shell.h"
 /**
- * getpath - Gets the Path environment
+ * get_path - Gets the Path environment
  *
  * Return: path pointer
  */
@@ -9,11 +9,11 @@ char *get_path(void)
 {
 	unsigned int a, b, c;
 	char *str, **enp = environ;
-	c = 0;
 
+	c = 0;
 	for (a = 0; enp[a]; a++)
 	{
-		if (enp[a][0] = 'P' && enp[a][1] == 'A' && enp[a][2] == 'T' && enp[a][3] == 'H' && enp[a][4] == '=')
+		if (enp[a][0] == 'P' && enp[a][3] == 'H' && enp[a][4] == '=')
 		{
 			str = _calloc(PATH_MAX, sizeof(char));
 			if (str == NULL)
