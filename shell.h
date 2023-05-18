@@ -35,6 +35,9 @@ int _strcmp(char *s1, char *s2);
 int _atoi(char *s);
 void _itoa(int value, char *str, int base);
 void rev_string(char *s);
+char *_strchr(char *str, char c);
+int space(char *cmd);
+int count(char *args, char c);
 
 int _isdigit(int c);
 char *_strcpy(char *dest, char *src);
