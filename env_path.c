@@ -5,7 +5,7 @@
  * Return: path pointer
  */
 
-char *getpath(void)
+char *get_path(void)
 {
 	unsigned int a, b, c;
 	char *str, **enp = environ;

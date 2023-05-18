@@ -12,54 +12,49 @@
  */
 int main(int ac, char **av)
 {
-	char *user_input = NULL;
-	char *comment = NULL;
-	char **command = NULL;
-	int exit_code = 0;
-	int command_number = 0;
+	(void)ac;
+	char *user = NULL, *cmt = NULL;
+	char **cmd = NULL;
+	int xcode = 0, count = 0;
 
+	
 	while (1)
 	{
-		command_number++;
-		write(STDOUT_FILENO, "$ ", 2);
-		user_input = read_command();
-		comment = comments(user_input);
+		count++;
+		write(STDIN_FILENO, "$ ", 2);
+                user = read_cmd(), user = comments(user);
 
-		if (comment[0] == '\n');
+		if (user[0] == '\n')
 		{
-			free(user_input);
+			free(user);
 			continue;
 		}
 
-		command = split_command(comment);
-		if (comment[0] != '/')
+		cmt = _calloc(_strlen(user) + 1, sizeof(char));
+		strcpy(cmt, user);
+		cmd = split_command(user);
+		if (user[0] != '/')
+                {
+                        create_process(user, cmd, cmt, count, av[0]);
+                }
+                else
+                        run_cmd(cmd, user, count, cmd[0], cmd[1], av[0]);
+                free(user), free(cmt), free(cmd);
+		if (!_strcmp("env", cmd[0]))
 		{
-			create_process(user_input, command, comment, command_number);
-		}else
-			run_command(command, user_input, command_number, command[0], command[1], NULL);
-		if (!_strcmp(command[0], "exist"))
+			_env(cmd);
+			free,(user), free(cmt), free(cmd);
+			continue;
+		}
+		if (_strcmp("exit", cmd[0]))
 		{
-			exit_code = exit_shell(user_input, comment, command_number, NULL, "shell");
-			if (exit_code == 2)
+			xcode = exit_shell(user, cmt, count, cmd, av[0], xcode);
+			if (xcode == 2)
 			{
-				free(user_input);
-				free(comment);
-				free(command);
+				free(user), free(cmt), free(cmd);
 				continue;
 			}
 		}
-		if (!_strcmp(command[0], "env"))
-		{
-			_env(command);
-			free(user_input);
-			free(comment);
-			free(command);
-			continue;
-		}
-		free(user_input);
-		free(command);
-		free(comment);
 	}
 	return (0);
 }
-

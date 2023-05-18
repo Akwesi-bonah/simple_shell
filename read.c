@@ -4,7 +4,7 @@
  * Return: string line with line break
  */
 
-char *read_command(void)
+char *read_cmd(void)
 {
 	char *line = NULL;
 	size_t bufsize = 0;

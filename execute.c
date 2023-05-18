@@ -1,12 +1,15 @@
 #include "shell.h"
 /**
- * run_command - function that runs command passed
- * @args: argument passed
- * @path: on
- */
-
-
-int run_command(char **args, char *path, int on,char *var_name, char *type, char *name)
+ * run_cmd - execute command
+ * @cnt: number of commands
+ * @vname: command.
+ * @type: error of the command
+ * @nm: name of the exe
+ * @arg: aguments of the command
+ * @pth: line of command
+ * Return: count
+**/
+int run_cmd(char **arg, char *pth, int cnt, char *vname, char *typ, char *nm)
 {
 	pid_t pid, wpid;
 	int status;
@@ -14,29 +17,31 @@ int run_command(char **args, char *path, int on,char *var_name, char *type, char
 	char *aux_path = "/b";
 	(void)wpid;
 
-	if (path[0] == aux_path[0] && path[1] == aux_path[1])
+	if (pth[0] == aux_path[0] && pth[1] == aux_path[1])
 	{
-		strcpy(exe_path, path);
+		strcpy(exe_path, pth);
 	}else{
 		strcat(exe_path, "/");
-		strcat(exe_path, path);
+		strcat(exe_path, pth);
 	}
 	pid = fork();
 
 	if (pid < 0)
 	{
-		print_error(on, var_name, type, name);
+		print_error(cnt, vname, typ, nm);
 		return (0);
 	}
 
 	if (pid == 0)
 	{
-		if (execve(exe_path, args, NULL) == -1)
+		if (execve(exe_path, arg, NULL) == -1)
 		{
-			print_error(on, var_name, type, name);
+			print_error(cnt, vname, typ, nm);
 			exit(EXIT_FAILURE);
 		}
-	}else{
+	}
+	else
+	{
 		do {
 			wpid = waitpid(pid, &status, WUNTRACED);
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));

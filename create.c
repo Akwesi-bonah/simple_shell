@@ -1,6 +1,16 @@
 #include "shell.h"
+/**
+ * create_process - create a fork process
+ * @path: path to be freed
+ * @cnt: number of command
+ * args: command passed
+ * name: name of execution
+ * line: commad line
+ *
+ * Return: count
+ */
 
-int create_process(char *path, char **args, char *name, int on)
+int create_process(char *path, char **args, char *line, int cnt, char *name)
 {
 	pid_t pid = 0, wpid;
 	int status = 0;
@@ -10,15 +20,15 @@ int create_process(char *path, char **args, char *name, int on)
 
 	if (pid < 0)
 	{
-		print_error(on, args[0], args[1], name);
+		print_error(cnt, args[0], args[1], name);
 		return (0);
 	}
 
 	if (pid == 0)
 	{
-		if (execve(path, args, NULL) == -1)
+		if (execve(line, args, NULL) == -1)
 		{
-			print_error(on, args[0], args[1], name);
+			print_error(cnt, args[0], args[1], name);
 			exit(EXIT_FAILURE);
 		}
 	}

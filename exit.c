@@ -1,6 +1,6 @@
 #include "shell.h"
 
-int exit_shell(char *line, char *line2, int on, char **args, char *name)
+int exit_shell(char *line, char *line2, int on, char **args, char *name, int ex)
 {
         int i, sts;
 	int digit = 1;
