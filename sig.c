@@ -4,7 +4,7 @@
  * @num: Reset handler to catch SIGINT next time.
  * Return: 0
  */
-void shortcut_cmd(int sig_num)
+void shortcut_cmd(int num)
 {
         (void)num;
 

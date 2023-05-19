@@ -11,7 +11,7 @@
  */
 int execute(char cmd[], int num_cmd, char *var, char *er_msg, char *exe_name)
 {
-	int len_cmd = _stelen(cmd);
+	int len_cmd = _strlen(cmd);
 	int flags = 0, xcode = 0;
 	char *copy = NULL, *path;
 	char **dir = NULL;
@@ -19,7 +19,7 @@ int execute(char cmd[], int num_cmd, char *var, char *er_msg, char *exe_name)
 	copy = _calloc(len_cmd + 1, sizeof(char));
 	path = get_path();
 	dir = split_path(path);
-	_strcopy(copy, cmd);
+	_strcpy(copy, cmd);
 
 	if (flags == 0)
 	{
@@ -36,7 +36,7 @@ int execute(char cmd[], int num_cmd, char *var, char *er_msg, char *exe_name)
 
 	else if (flags == 4)
 	{
-		xcode = exe_c(copy, dir, num_cmd, var, er_msg, name);
+		xcode = exe_y(copy, dir, num_cmd, var, er_msg, exe_name);
 	}
 	free(path);
 	free(copy);
