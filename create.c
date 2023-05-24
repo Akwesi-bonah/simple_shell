@@ -15,7 +15,6 @@ int create_process(char *path, char **args, char *line, int cnt, char *name)
 	pid_t pid = 0, wpid;
 	int status = 0;
 	(void)wpid;
-
 	pid = fork();
 
 	if (pid < 0)
@@ -23,8 +22,7 @@ int create_process(char *path, char **args, char *line, int cnt, char *name)
 		print_error(cnt, args[0], args[1], name);
 		return (0);
 	}
-
-	if (pid == 0)
+	else if (pid == 0)
 	{
 		if (execve(line, args, NULL) == -1)
 		{
@@ -38,8 +36,6 @@ int create_process(char *path, char **args, char *line, int cnt, char *name)
 		do {
 			wpid = waitpid(pid, &status, WUNTRACED);
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
-
 	}
-
 	return (1);
 }

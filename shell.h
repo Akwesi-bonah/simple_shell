@@ -21,8 +21,12 @@ int main(int ac, char **av);
 int run_cmd(char **arg, char *pth, int cnt, char *vname, char *typ, char *nm);
 int exit_shell(char *line, char *line2, int on, char **arg, char *nm, int ex);
 void _env(char **args);
+void execute_cmd(char **cmd, char *user, char *cmt, int counter, char *av0);
 int create_process(char *path, char **args, char *line, int cnt, char *name);
-
+int change_dir(const char *path);
+int in(char **cmd, char **av, char *user, char *cmt, int counter, int xcode);
+int set_env(const char *name, const char *value);
+int unset_env(const char *name);
 char *read_cmd(void);
 void *_calloc(unsigned int num, unsigned int size);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);

@@ -41,6 +41,5 @@ int execute(char cmd[], int num_cmd, char *var, char *er_msg, char *exe_name)
 	free(path);
 	free(copy);
 	free(dir);
-
 	return (xcode);
 }

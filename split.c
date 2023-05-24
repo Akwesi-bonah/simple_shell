@@ -13,7 +13,7 @@ char **split_command(char *line)
 {
 	int buffer_size = BUFFER_SIZE;
 	int i = 0;
-	char **tokens = malloc(sizeof(char *) * buffer_size);
+	char **tokens = malloc(buffer_size);
 	char *token;
 
 	if (!tokens)

@@ -35,7 +35,7 @@ char *combine_path(char *dir, char *command)
 	dir_len = _strlen(dir);
 	command_len = _strlen(command);
 
-	len = dir_len + command_len + 1;
+	len = dir_len + command_len;
 	path_command = calloc(len + 2, sizeof(char));
 	if (path_command == NULL)
 	{
@@ -59,4 +59,3 @@ char *combine_path(char *dir, char *command)
 	path_command[i] = '\0';
 	return (path_command);
 }
-

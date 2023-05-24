@@ -9,13 +9,13 @@ int main(int ac, char **av)
 {
 	char *user = NULL, *cmt = NULL;
 	char **cmd = NULL;
-	int xcode = 0, count = 0;
+	int xcode = 0, counter = 0;
 	(void)ac;
 
 	signal(SIGINT, shortcut_cmd);
 	while (1)
 	{
-		count++;
+		counter++;
 		write(STDIN_FILENO, "$ ", 2);
 		user = read_cmd(), user = comments(user);
 		if (user[0] == '\n')
@@ -23,27 +23,17 @@ int main(int ac, char **av)
 			free(user);
 			continue;
 		}
+
 		cmt = _calloc(_strlen(user) + 1, sizeof(char));
 		_strcpy(cmt, user);
 		cmd = split_command(user);
-		if (!_strcmp("env", cmd[0]))
-		{_env(cmd);
+
+		if (in(cmd, av, user, cmt, counter, xcode))
+		{
 			free(user), free(cmt), free(cmd);
 			continue;
 		}
-		if (!_strcmp("exit", cmd[0]))
-		{
-			xcode = exit_shell(user, cmt, count, cmd, av[0], xcode);
-			if (xcode == 2)
-			{
-				free(user), free(cmt), free(cmd);
-				continue;
-			}
-		}
-		if (user[0] !=  '/')
-			create_process(user, cmd, cmt, count, av[0]);
-		else
-			run_cmd(cmd, user, count, cmd[0], cmd[1], av[0]);
+		execute_cmd(cmd, user, cmt, counter, av[0]);
 		free(user), free(cmt), free(cmd);
 	}
 	return (0);

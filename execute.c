@@ -39,7 +39,7 @@ int run_cmd(char **arg, char *pth, int cnt, char *vname, char *typ, char *nm)
 		if (execve(exe_path, arg, NULL) == -1)
 		{
 			print_error(cnt, vname, typ, nm);
-			exit(EXIT_FAILURE);
+			return (0);
 		}
 	}
 	else
@@ -48,8 +48,5 @@ int run_cmd(char **arg, char *pth, int cnt, char *vname, char *typ, char *nm)
 			wpid = waitpid(pid, &status, WUNTRACED);
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
-
 	return (1);
 }
-
-
