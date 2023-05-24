@@ -68,10 +68,16 @@ int _atoi(char *s)
 	res *= sign;
 	return (res);
 }
-
+/**
+ * _itoa - prints integeratoi reverse
+ * @value: int number
+ * @str: string value
+ * @base: number base
+ * Return: 0
+ */
 void _itoa(int value, char *str, int base)
 {
-	static char charset[] = "0123456789abcdefghijklmnopqrstuvwxyz";
+	static const char charset[] = "0123456789abcdefghijklmnopqrstuvwxyz";
 	int i = 0;
 
 	if (value < 0 && base == 10)
@@ -83,7 +89,7 @@ void _itoa(int value, char *str, int base)
 	do {
 		str[i++] = charset[value % base];
 		value /= base;
-	} while(value != 0);
+	} while (value != 0);
 
 	str[i] = '\0';
 

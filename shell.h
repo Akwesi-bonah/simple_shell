@@ -19,7 +19,7 @@ extern char **environ;
 
 int main(int ac, char **av);
 int run_cmd(char **arg, char *pth, int cnt, char *vname, char *typ, char *nm);
-int exit_shell(char *line, char *line2, int on, char **args, char *name, int ex);
+int exit_shell(char *line, char *line2, int on, char **arg, char *nm, int ex);
 void _env(char **args);
 int create_process(char *path, char **args, char *line, int cnt, char *name);
 
@@ -51,7 +51,7 @@ void _split_space(char *argv[], char line2[]);
 void _split(char line2[], char *scmd[], char c[]);
 void shortcut_cmd(int num);
 int runcmd(char *l, char *d[], int cnt, char *v, char *err, char *name);
-int exe_y(char cpy[], char *dpt[], int cnt,char *name, char *err, char *ename);
+int exe_y(char cpy[], char *dpt[], int cnt, char *name, char *err, char *nm);
 int exe_d(char cpy[], char *path[], int cnt, char *cmd, char *err, char *name);
 #endif
 

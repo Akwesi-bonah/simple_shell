@@ -25,25 +25,22 @@ int scmd(char c[], char *d[], int cnt, char *v, char *err, char *name)
 	if (dpcmd == NULL)
 		print_error(cnt, v, err, name);
 	else
-		p2 = fork();
+	p2 = fork();
 	if (!p2)
 	{
 		if (execve(dpcmd, args1, environ) == -1)
-		{
-			print_error(cnt, v, err, name);
+		{print_error(cnt, v, err, name);
 			return (0);
 		}
 		exit(EXIT_FAILURE);
 	}
 	else if (p2 < 0)
-	{
-		print_error(cnt, v, err, name);
+	{print_error(cnt, v, err, name);
 		return (0);
 	}
 	else
 	{
-		do {
-			wp = waitpid(p2, &status, WUNTRACED);
+		do {wp = waitpid(p2, &status, WUNTRACED);
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
 	x = (count(e2, ' ')) + 2;

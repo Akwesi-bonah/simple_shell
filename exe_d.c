@@ -29,15 +29,13 @@ int exe_d(char cpy[], char *path[], int cnt, char *cmd, char *err, char *name)
 	if (!pid2)
 	{
 		if (execve(cmdPath, args1, environ) == -1)
-		{
-			print_error(cnt, cmd, err, name);
+		{print_error(cnt, cmd, err, name);
 			return (0);
 		}
 		exit(EXIT_FAILURE);
 	}
 	else if (pid2 < 0)
-	{
-		print_error(cnt, cmd, err, name);
+	{print_error(cnt, cmd, err, name);
 		return (0);
 	}
 	else

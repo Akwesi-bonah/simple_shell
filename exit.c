@@ -5,17 +5,17 @@
  * @line2: line to free
  * @on: number of commands.
  * @arg: array of command and arguments.
- * @name: name of the exe.
+ * @nm: name of the exe.
  * @ex: int value
  * Return: an integer.
 **/
 
-int exit_shell(char *line, char *line2, int on, char **arg, char *name, int ex)
+int exit_shell(char *line, char *line2, int on, char **arg, char *nm, int ex)
 {
 	int i, sts;
 	int digit = 1;
 
-	if (args[1] == NULL)
+	if (arg[1] == NULL)
 	{
 		free(line);
 		free(line2);
@@ -34,15 +34,14 @@ int exit_shell(char *line, char *line2, int on, char **arg, char *name, int ex)
 
 	if (sts < 0 || sts + 1 > 0 && sts != 2)
 	{
-		print_error(on, arg[0], arg[1], name);
+		print_error(on, arg[0], arg[1], nm);
 		return (2);
 	}
 
 	free(line);
 	free(arg);
-	free(ex);
 
-	if (args[1] == NULL)
+	if (arg[1] == NULL)
 	{
 		free(line);
 		free(line2);
