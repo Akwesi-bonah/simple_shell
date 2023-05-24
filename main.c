@@ -7,10 +7,10 @@
  */
 int main(int ac, char **av)
 {
-	(void)ac;
 	char *user = NULL, *cmt = NULL;
 	char **cmd = NULL;
 	int xcode = 0, count = 0;
+	(void)ac;
 
 	signal(SIGINT, shortcut_cmd);
 	while (1)

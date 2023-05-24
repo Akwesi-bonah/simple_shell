@@ -36,6 +36,7 @@ char *combine_path(char *dir, char *command)
 	command_len = _strlen(command);
 
 	len = dir_len + command_len + 1;
+	path_command = calloc(len + 2, sizeof(char));
 	if (path_command == NULL)
 	{
 		write(1, "Error: malloc combine_path\n", 23);

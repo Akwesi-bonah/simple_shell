@@ -12,7 +12,7 @@
 
 int exit_shell(char *line, char *line2, int on, char **arg, char *nm, int ex)
 {
-	int i, sts;
+	int i, sts = ex;
 	int digit = 1;
 
 	if (arg[1] == NULL)
@@ -26,27 +26,20 @@ int exit_shell(char *line, char *line2, int on, char **arg, char *nm, int ex)
 	{
 		digit = _isdigit(arg[1][i]);
 		if (digit == 0)
-		{
 			break;
-		}
 	}
-	sts = digit ? _atoi(arg[1]) : 2;
-
-	if (sts < 0 || sts + 1 > 0 && sts != 2)
+	if (digit == 1)
+		sts =  _atoi(arg[1]);
+	else
+		sts = 2;
+	if (sts >= 0 && sts + 1 > 0 && sts != 2)
+	{
+		free(line), free(arg), exit(ex);
+	}
+	else
 	{
 		print_error(on, arg[0], arg[1], nm);
-		return (2);
-	}
-
-	free(line);
-	free(arg);
-
-	if (arg[1] == NULL)
-	{
-		free(line);
-		free(line2);
-		free(arg);
-		exit(EXIT_SUCCESS);
+		return (sts);
 	}
 }
 /**

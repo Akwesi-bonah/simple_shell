@@ -29,6 +29,7 @@ int create_process(char *path, char **args, char *line, int cnt, char *name)
 		if (execve(line, args, NULL) == -1)
 		{
 			print_error(cnt, args[0], args[1], name);
+			free(path), free(line), free(args);
 			exit(EXIT_FAILURE);
 		}
 	}

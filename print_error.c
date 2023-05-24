@@ -10,8 +10,9 @@
 void print_error(int on, char *var_name, char *type, char *name)
 {
 	char *str, *err, *msg;
-	char i;
+	char *p = NULL;
 
+	strcpy(p, type);
 	str = malloc(sizeof(char) * 10);
 	_itoa(on, str, 10);
 	err = malloc(sizeof(char) * 200);

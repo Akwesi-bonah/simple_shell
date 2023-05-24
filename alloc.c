@@ -9,10 +9,9 @@
 
 void *_calloc(unsigned int num, unsigned int size)
 {
-	int i;
+	int i, range;
 	char *str;
 	void *ptr = NULL;
-	size_t range;
 
 	if (num == 0 || size == 0)
 		return (NULL);
