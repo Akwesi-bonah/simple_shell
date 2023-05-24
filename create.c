@@ -3,9 +3,9 @@
  * create_process - create a fork process
  * @path: path to be freed
  * @cnt: number of command
- * args: command passed
- * name: name of execution
- * line: commad line
+ * @args: command passed
+ * @name: name of execution
+ * @line: commad line
  *
  * Return: count
  */
@@ -32,7 +32,8 @@ int create_process(char *path, char **args, char *line, int cnt, char *name)
 			exit(EXIT_FAILURE);
 		}
 	}
-	else {
+	else
+	{
 		do {
 			wpid = waitpid(pid, &status, WUNTRACED);
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));

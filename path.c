@@ -23,9 +23,9 @@ char *check_path(char **directories, char *command)
 
 /**
  * combine_path - Concatenates a directory path and a command
- * @directory: Pointer to a string that represents the directory path.
- * @command: Pointer to a string that represents the command.
- * Return: Pointer to a string that represents the combined path.
+ * @dir: Pointer to a string that represents the directory path
+ * @command: Pointer to a string that represents the command
+ * Return: Pointer to a string that represents the combined path
  */
 char *combine_path(char *dir, char *command)
 {
@@ -49,7 +49,6 @@ char *combine_path(char *dir, char *command)
 	}
 	path_command[i] = '/';
 	i++;
-
 	while (command[i])
 	{
 		path_command[i] = command[j];

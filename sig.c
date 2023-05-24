@@ -6,9 +6,8 @@
  */
 void shortcut_cmd(int num)
 {
-        (void)num;
-
-        signal(SIGINT, shortcut_cmd);
-        write(STDOUT_FILENO, "\n$ ", 3);
-        fflush(stdout);
+	(void)num;
+	signal(SIGINT, shortcut_cmd);
+	write(STDOUT_FILENO, "\n$ ", 3);
+	fflush(stdout);
 }
