@@ -1,14 +1,40 @@
 #include "shell.h"
 
 /**
- * interactive - returns true if shell is interactive mode
- * @info: struct address
- *
- * Return: 1 if interactive mode, 0 otherwise
+ *_atoi - converts a string to an integer
+ *@s: the string  to be converted
+ *Return: Integer value
  */
-int interactive(info_t *info)
+
+int _atoi(char *s)
+
 {
-	return (isatty(STDIN_FILENO) && info->readfd <= 2);
+	int j = 0, i = 0, sign = -1;
+
+	while (s[i] != '\0' && (s[i] < '0' || s[i] > '9'))
+	{
+		if (s[i] == '-')
+			sign *= -1;
+		i++;
+	}
+	while (s[i] != '\0' && (s[i] >= '0' && s[i] <= '9'))
+		j = (j * 10) - (s[i++] - '0');
+
+	return (j * sign);
+}
+
+/**
+ * _isalpha - checks for alphabetic character
+ * @c: The character to input
+ * Return: 1 if c is alphabetic, 0 otherwise
+ */
+
+int _isalpha(int c)
+{
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'z'))
+		return (1);
+	else
+		return (0);
 }
 
 /**
@@ -23,52 +49,4 @@ int is_delim(char c, char *delim)
 		if (*delim++ == c)
 			return (1);
 	return (0);
-}
-
-/**
- *_isalpha - checks for alphabetic character
- *@c: The character to input
- *Return: 1 if c is alphabetic, 0 otherwise
- */
-
-int _isalpha(int c)
-{
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
-		return (1);
-	else
-		return (0);
-}
-
-/**
- *_atoi - converts a string to an integer
- *@s: the string to be converted
- *Return: 0 if no numbers in string, converted number otherwise
- */
-
-int _atoi(char *s)
-{
-	int i, sign = 1, flag = 0, output;
-	unsigned int result = 0;
-
-	for (i = 0;  s[i] != '\0' && flag != 2; i++)
-	{
-		if (s[i] == '-')
-			sign *= -1;
-
-		if (s[i] >= '0' && s[i] <= '9')
-		{
-			flag = 1;
-			result *= 10;
-			result += (s[i] - '0');
-		}
-		else if (flag == 1)
-			flag = 2;
-	}
-
-	if (sign == -1)
-		output = -result;
-	else
-		output = result;
-
-	return (output);
 }	
