@@ -1,85 +1,51 @@
 #include "shell.h"
-
-int _myexit(info_t *info)
+/**
+ * in - Handle the execution of builtin commands
+ * @cmd: Command and arguments array
+ * @av: Arguments passed to the program
+ * @user: User input string
+ * @cmt: User input string without comments
+ * @counter: Command counter
+ * @xcode: Exit code
+ * Return: 1 if command is a builtin and handled, 0 otherwise
+ */
+int in(char **cmd, char **av, char *user, char *cmt, int counter, int xcode)
 {
-    int exit_status;
-
-    if (info->argv[1])
-    {
-        exit_status = _erratoi(info->argv[1]);
-        if (exit_status == -1)
-        {
-            info->status = 2;
-            print_error(info, "Illegal number: ");
-            _eputs(info->argv[1]);
-            _eputchar('\n');
-            return 1;
-        }
-        info->err_num = _erratoi(info->argv[1]);
-        return -2;
-    }
-
-    info->err_num = -1;
-    return -2;
-}
-
-int _mycd(info_t *info)
-{
-    char *current_dir, *dir, buffer[1024];
-    int chdir_ret;
-
-    current_dir = getcwd(buffer, 1024);
-    if (!current_dir)
-        _puts("TODO: >>getcwd failure emsg here<<\n");
-
-    if (!info->argv[1])
-    {
-        dir = _getenv(info, "HOME=");
-        if (!dir)
-            chdir_ret = chdir((dir = _getenv(info, "PWD=")) ? dir : "/");
-        else
-            chdir_ret = chdir(dir);
-    }
-    else if (_strcmp(info->argv[1], "-") == 0)
-    {
-        if (!_getenv(info, "OLDPWD="))
-        {
-            _puts(current_dir);
-            _putchar('\n');
-            return 1;
-        }
-        _puts(_getenv(info, "OLDPWD="));
-        _putchar('\n');
-        chdir_ret = chdir((dir = _getenv(info, "OLDPWD=")) ? dir : "/");
-    }
-    else
-    {
-        chdir_ret = chdir(info->argv[1]);
-    }
-
-    if (chdir_ret == -1)
-    {
-        print_error(info, "can't cd to ");
-        _eputs(info->argv[1]);
-        _eputchar('\n');
-    }
-    else
-    {
-        _setenv(info, "OLDPWD", _getenv(info, "PWD="));
-        _setenv(info, "PWD", getcwd(buffer, 1024));
-    }
-
-    return 0;
-}
-
-int _myhelp(info_t *info)
-{
-    char **arg_array;
-
-    arg_array = info->argv;
-    _puts("help call works. Function not yet implemented \n");
-    if (0)
-        _puts(arg_array); / temp att_unused workaround */
-
-    return 0;
+	if (cmd[0] == NULL)
+		return (0);
+	if (strcmp(cmd[0], "env") == 0)
+	{ _env(cmd);
+		return (1);
+	}
+	else if (strcmp(cmd[0], "exit") == 0)
+	{
+		xcode = exit_shell(user, cmt, counter, cmd, av[0], xcode);
+		if (xcode == 2)
+			return (1);
+	}
+	else if (strcmp(cmd[0], "setenv") == 0)
+	{
+		if (cmd[1] != NULL && cmd[2] != NULL)
+			set_env(cmd[1], cmd[2]);
+		else
+			printf("Usage: setenv <variable> <value>\n");
+		return (1);
+	}
+	else if (strcmp(cmd[0], "unsetenv") == 0)
+	{
+		if (cmd[1] != NULL)
+			unset_env(cmd[1]);
+		else
+			printf("Usage: unsetenv <variable>\n");
+		return (1);
+	}
+	else if (strcmp(cmd[0], "cd") == 0)
+	{
+		if (change_dir(cmd[1]) != 0)
+		{
+			fprintf(stderr, "cd: Failed to change directory\n");
+			return (1);
+		}
+	}
+	return (0);
 }

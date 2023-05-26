@@ -1,61 +1,96 @@
 #include "shell.h"
-/**
- * check_path - check with stat in the directories in PATH with command
- * @directories: pointer array of directories in PATH
- * @command: pointer to command name
- * Return: pointer if found, NULL not found
- */
-char *check_path(char **directories, char *command)
-{
-	struct stat file_metadata;
-	char *full_path;
-	int i = 0;
 
-	while (directories[i])
+/**
+ * path_cmd -  Search In $PATH For Excutable Command
+ * @cmd: Parsed Input
+ * Return: 1  Failure  0  Success.
+ */
+int path_cmd(char **cmd)
+{
+	char *path, *value, *cmd_path;
+	struct stat buf;
+
+	path = _getenv("PATH");
+	value = _strtok(path, ":");
+	while (value != NULL)
 	{
-		full_path = combine_path(directories[i], command);
-		if (stat(full_path, &file_metadata) == 0)
-			return (full_path);
-		i++;
+		cmd_path = build(*cmd, value);
+		if (stat(cmd_path, &buf) == 0)
+		{
+			*cmd = _strdup(cmd_path);
+			free(cmd_path);
+			free(path);
+			return (0);
+		}
+		free(cmd_path);
+		value = _strtok(NULL, ":");
 	}
-	return (NULL);
+	free(path);
+
+	return (1);
 }
-
 /**
- * combine_path - Concatenates a directory path and a command
- * @dir: Pointer to a string that represents the directory path
- * @command: Pointer to a string that represents the command
- * Return: Pointer to a string that represents the combined path
+ * build - Build Command
+ * @token: Excutable Command
+ * @value: Dirctory Conatining Command
+ *
+ * Return: Parsed Full Path Of Command Or NULL Case Failed
  */
-char *combine_path(char *dir, char *command)
+char *build(char *token, char *value)
 {
-	int dir_len, command_len, len, i = 0, j = 0;
-	char *path_command;
+	char *cmd;
+	size_t len;
 
-	dir_len = _strlen(dir);
-	command_len = _strlen(command);
-
-	len = dir_len + command_len;
-	path_command = calloc(len + 2, sizeof(char));
-	if (path_command == NULL)
+	len = _strlen(value) + _strlen(token) + 2;
+	cmd = malloc(sizeof(char) * len);
+	if (cmd == NULL)
 	{
-		write(1, "Error: malloc combine_path\n", 23);
 		return (NULL);
 	}
 
-	while (dir[i])
+	memset(cmd, 0, len);
+
+	cmd = _strcat(cmd, value);
+	cmd = _strcat(cmd, "/");
+	cmd = _strcat(cmd, token);
+
+	return (cmd);
+}
+/**
+ * _getenv - Gets The Value Of Enviroment Variable By Name
+ * @name: Environment Variable Name
+ * Return: The Value of the Environment Variable Else NULL.
+ */
+char *_getenv(char *name)
+{
+	size_t nl, vl;
+	char *value;
+	int i, x, j;
+
+	nl = _strlen(name);
+	for (i = 0 ; environ[i]; i++)
 	{
-		path_command[i] = dir[i];
-		i++;
+		if (_strncmp(name, environ[i], nl) == 0)
+		{
+			vl = _strlen(environ[i]) - nl;
+			value = malloc(sizeof(char) * vl);
+			if (!value)
+			{
+				free(value);
+				perror("unable to alloc");
+				return (NULL);
+			}
+
+			j = 0;
+			for (x = nl + 1; environ[i][x]; x++, j++)
+			{
+				value[j] = environ[i][x];
+			}
+			value[j] = '\0';
+
+			return (value);
+		}
 	}
-	path_command[i] = '/';
-	i++;
-	while (command[i])
-	{
-		path_command[i] = command[j];
-		j++;
-		i++;
-	}
-	path_command[i] = '\0';
-	return (path_command);
+
+	return (NULL);
 }
