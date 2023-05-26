@@ -1,18 +1,9 @@
 #ifndef _SHELL_H_
 #define _SHELL_H_
 
-/**###### environ var ######*/
-
-extern char **environ;
-
-/**##### MACROS ######*/
-
 #define BUFSIZE 1024
 #define DELIM " \t\r\n\a"
 #define PRINTER(c) (write(STDOUT_FILENO, c, _strlen(c)))
-
-/**###### LIBS USED ######*/
-
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -23,8 +14,10 @@ extern char **environ;
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <limits.h>
 #include <linux/limits.h>
 
+extern char **environ;
 
 /**
  * struct bulltin - contain bultin to handle and function to excute
@@ -33,16 +26,21 @@ extern char **environ;
  */
 typedef struct  bulltin
 {
-        char *command;
-        int (*fun)(char **line, int er);
+	char *command;
+	int (*fun)(char **line, int er);
 } bul_t;
 
+int setenv_builtin(char **cmd, int er);
+int unsetenv_builtin(char **cmd, int er);
 char *_strtok(char *str, const char *tok);
 unsigned int check_delim(char c, const char *str);
 char *_strncpy(char *dest, char *src, int n);
 int _strlen(char *s);
 int _putchar(char c);
-
+int handle_cmd(char **cmd, char *input, char **argv, int num, int *pr_status);
+void remove_alias(char *name);
+void add_alias(char *name, char *value);
+void alias(char **cmd);
 int _atoi(char *s);
 void _puts(char *str);
 int _strcmp(char *s1, char *s2);

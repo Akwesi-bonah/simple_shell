@@ -17,29 +17,29 @@ void  exit_bul(char **cmd, char *input, char **argv, int c)
 		free(cmd);
 		exit(EXIT_SUCCESS);
 	}
-	while (cmd[1][i])
+	while (cmd[1][i] != '\0')
 	{
-		if (_isalpha(cmd[1][i++]) != 0)
+		if (_isalpha((unsigned char)cmd[1][i++]) != 0)
 		{
 			_prerror(argv, c, cmd);
 			break;
 		}
-		else
-		{
-			statue = _atoi(cmd[1]);
-			free(input);
-			free(cmd);
-			exit(statue);
-		}
+		i++;
 	}
+	statue = _atoi(cmd[1]);
+	free(input);
+	free(cmd);
+	exit(statue);
+
+
 }
 
 
 /**
- * change_dir - Change Dirctorie
- * @cmd: Parsed Command
- * @er: Statue Last Command Excuted
- * Return: 0 Succes 1 Failed (For Old Pwd Always 0 Case No Old PWD)
+ * change_dir - Change Dirctory
+ * @cmd: Command passed
+ * @er: Status of next command Excuted
+ * Return: 0 Succes 1 Failed
  */
 int change_dir(char **cmd, __attribute__((unused))int er)
 {
@@ -57,14 +57,21 @@ int change_dir(char **cmd, __attribute__((unused))int er)
 
 	if (value == -1)
 	{
-		perror("hsh");
+		perror("cd");
 		return (-1);
 	}
-	else if (value != -1)
+	else
 	{
-		getcwd(cwd, sizeof(cwd));
-		setenv("OLDPWD", getenv("PWD"), 1);
-		setenv("PWD", cwd, 1);
+		if (getcwd(cwd, sizeof(cwd)) != NULL)
+		{
+			setenv("OLDPWD", getenv("PWD"), 1);
+			setenv("PWD", cwd, 1);
+		}
+		else
+		{
+			printf("getcwd");
+			return (1);
+		}
 	}
 	return (0);
 }

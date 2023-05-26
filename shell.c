@@ -9,13 +9,14 @@
 
 int main(__attribute__((unused)) int argc, char **argv)
 {
-	char *input, **cmd;
-	int counter = 0, statue = 1, st = 0;
+	char *input, *token, *rest, **cmd;
+	int counter = 0, status = 1, st = 0;
 
 	if (argv[1] != NULL)
 		read_file(argv[1], argv);
 	signal(SIGINT, signal_to_handel);
-	while (statue)
+
+	while (status)
 	{
 		counter++;
 		if (isatty(STDIN_FILENO))
@@ -23,28 +24,28 @@ int main(__attribute__((unused)) int argc, char **argv)
 		input = _getline();
 		if (input[0] == '\0')
 		{
+			free(input);
 			continue;
 		}
-		history(input);
-		cmd = parse_cmd(input);
-		if (_strcmp(cmd[0], "exit") == 0)
+		rest = input;
+		while ((token = strtok_r(rest, ";", &rest)))
 		{
-			exit_bul(cmd, input, argv, counter);
+			if (token[0] == '\0')
+				continue;
+			history(token);
+			cmd = parse_cmd(token);
+			if (handle_builtin(cmd, st) == -1)
+			{
+				status = handle_cmd(cmd, input, argv, counter, &st);
+			}
+			if (status == 0)
+			{
+				free(input);
+				return (0);
+			}
 		}
-		else if (check_builtin(cmd) == 0)
-		{
-			st = handle_builtin(cmd, st);
-			free_all(cmd, input);
-			continue;
-		}
-		else
-		{
-			st = check_cmd(cmd, input, counter, argv);
-
-		}
-		free_all(cmd, input);
 	}
-	return (statue);
+	return (status);
 }
 /**
  * check_builtin - check builtin
@@ -55,9 +56,10 @@ int main(__attribute__((unused)) int argc, char **argv)
 int check_builtin(char **cmd)
 {
 	bul_t fun[] = {
-		{"cd", NULL},
-		{"help", NULL},
-		{"echo", NULL},
+		{"cd", change_dir},
+		{"echo", echo_bul},
+		{"setenv", setenv_builtin},
+		{"unsetenv", unsetenv_builtin},
 		{"history", NULL},
 		{NULL, NULL}
 	};
@@ -70,7 +72,7 @@ int check_builtin(char **cmd)
 	while ((fun + i)->command)
 	{
 		if (_strcmp(cmd[0], (fun + i)->command) == 0)
-			return (0);
+			return (1);
 		i++;
 	}
 	return (-1);
