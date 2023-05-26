@@ -33,8 +33,8 @@ extern char **environ;
  */
 typedef struct  bulltin
 {
-        char *command;
-        int (*fun)(char **line, int er);
+	char *command;
+	int (*fun)(char **line, int er);
 } bul_t;
 
 char *_strtok(char *str, const char *tok);

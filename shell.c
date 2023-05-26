@@ -55,9 +55,8 @@ int main(__attribute__((unused)) int argc, char **argv)
 int check_builtin(char **cmd)
 {
 	bul_t fun[] = {
-		{"cd", NULL},
-		{"help", NULL},
-		{"echo", NULL},
+		{"cd", change_dir},
+		{"echo", echo_bul},
 		{"history", NULL},
 		{NULL, NULL}
 	};
